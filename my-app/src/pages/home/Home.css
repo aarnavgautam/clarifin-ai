@@ -9,25 +9,67 @@
 .home_content{
     display: flex;
     flex-direction: row;
-    margin: 20%;
-
-
 }
 
 .home_logo {
-    width: 40%;
+    width: 450px;
 }
 
 .home_title {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    margin-right: 200px;
+}
+
+.home_title h2 {
+    font-weight: 350;
+    font-style: italic;
+    font-size: 25px;
 }
 
 .home_login {
     background-color: #635BFF;
-    padding: 5em;
     border-radius: 10px;
-    padding-right: 7em;
-    padding-left: 7em;
+    padding: 2em 5em;
     color: white;
+    display: flex; /* Add this */
+    flex-direction: column; /* Add this */
+    align-items: center; /* Center items */
+}
+
+.home_login h2 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.home_option {
+    margin-top: 20px;
+}
+
+.home_login input {
+    padding-right: 35%;
+}
+
+.home_option_label {
+    margin-bottom: 100px;
+}
+
+.home_login button {
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 10px; /* Add px */
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer; /* Optional: change cursor on hover */
+    margin-left: 21%;
+}
+
+.home_login p {
+    margin-top: 20px;
+    font-size: 15px;
+    font-style: italic;
 }
