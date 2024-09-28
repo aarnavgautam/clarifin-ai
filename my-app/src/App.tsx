@@ -3,11 +3,11 @@ import './App.css';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
 // importing pages
-import Home from './components/home/Home';
-import Welcome from './components/welcome/Welcome';
-import UserInformation from './components/user_information/User';
-import Profile from './components/profile/Profile';
-import Document from './components/document_reader/Document';
+import Home from './pages/home/Home';
+import Welcome from './pages/welcome/Welcome';
+import UserInformation from './pages/user_information/User';
+import Profile from './pages/profile/Profile';
+import Document from './pages/document_reader/Document';
 
 
 const App: React.FC = () => {
