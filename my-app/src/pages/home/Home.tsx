@@ -3,6 +3,10 @@ import './Home.css';
 import purpleLogo from '../../assets/purple_logo.png';
 
 const Home = () => {
+  
+  const handleLogin = () => {
+    window.location.href = `https://clarifin-ai.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=mhhtn5j6b2l87ga35v81m4khh&redirect_uri=http://localhost:3000/user-information`;
+  };
   return (
     <section className="home_container animated_background">
       <div className="home_content">
@@ -22,7 +26,7 @@ const Home = () => {
               <label htmlFor="password">Password:</label>
               <input type="password" id="password" required />
             </div>
-            <button type="submit">Login</button>
+            <button onClick = {handleLogin}>Login</button>
             <p>Don't have an account? Sign up.</p>
           </form>
         </div>
