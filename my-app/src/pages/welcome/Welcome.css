@@ -5,17 +5,30 @@
     align-items: left;
     height: 100vh;  
     margin-left: 100px;
+    overflow-x: hidden; 
+    transition: transform 1s ease-out;
+}
+
+.welcome_container.shift-right {
+    transform: translateX(100%);
 }
 
 .welcome_container h1 {
     font-size: 100px;
     font-weight: 700;
+    transform: translateX(-100%); 
+    opacity: 0;
+    transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+.welcome_container h1.slide-in {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .welcome_container p {
     font-size: 40px;
     margin-top: -50px;
-    font-style: italic;
 }
 
 .fade-in {
