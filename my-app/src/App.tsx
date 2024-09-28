@@ -9,7 +9,7 @@ import UserInformation from './pages/user_information/User';
 import Profile from './pages/profile/Profile';
 import Document from './pages/document_reader/Document';
 import FileUploader from './components/fileUploader';
-
+import Chatbot from './components/chatbot';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +23,7 @@ const App: React.FC = () => {
           <Route path="/document" element={<Document />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/file-uploader" element={<FileUploader />} />
+          <Route path="/chatbot" element={<Chatbot />} />
         </Routes>
       </Router>
     </>
