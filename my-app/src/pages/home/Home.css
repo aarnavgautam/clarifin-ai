@@ -1,0 +1,33 @@
+
+.home_container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+    height: 100vh;   
+}
+
+.home_content{
+    display: flex;
+    flex-direction: row;
+    margin: 20%;
+
+
+}
+
+.home_logo {
+    width: 40%;
+}
+
+.home_title {
+    display: flex;
+    flex-direction: column;
+}
+
+.home_login {
+    background-color: #635BFF;
+    padding: 5em;
+    border-radius: 10px;
+    padding-right: 7em;
+    padding-left: 7em;
+    color: white;
+}
