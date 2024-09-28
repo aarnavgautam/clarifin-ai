@@ -1,0 +1,67 @@
+.document_button_container {
+    margin-top: 20px;
+}
+
+.document_logo {
+    margin-top: 10px;
+    width: 20%;
+    display: block; /* Ensure image is treated as a block element for centering */
+    margin-left: auto; /* Centers image horizontally */
+    margin-right: auto; /* Centers image horizontally */
+}
+
+.document_button_container button {
+    font-size: 20px;
+    margin-right: 40px;
+    padding: 10px 40px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border: 3px solid black;
+}
+
+.button_normal {
+    background-color: transparent;
+}
+
+.button_suggestion {
+    background-color: #182C51;
+    color: white;
+}
+  
+.document_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center contents horizontally */
+    padding: 20px;
+    text-align: center; /* Center text and inline elements like images */
+}
+
+.document_container p {
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    font-style: italic;
+}
+
+  .document_content {
+    display: flex;
+    justify-content: space-between; /* Space between PDF and details */
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .pdf_container {
+    flex: 1; /* Take up remaining space */
+    margin-right: 20px; /* Space between PDF and details */
+    border: 1px solid #ccc; /* Optional border */
+  }
+  
+  .detail_container {
+    flex-basis: 300px; /* Fixed width for details section */
+    padding: 10px;
+    background-color: #f9f9f9; /* Background for details */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional shadow */
+  }
+  
