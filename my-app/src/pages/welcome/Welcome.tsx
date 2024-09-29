@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import './Welcome.css';
 
 const Welcome = () => {
-  let location = useLocation();
   const [showHeading, setShowHeading] = useState(false);
   const [showParagraph, setShowParagraph] = useState(false);
   const [shiftRight, setShiftRight] = useState(false);
@@ -21,8 +20,7 @@ const Welcome = () => {
     }, 6000);
 
     const redirectTimer = setTimeout(() => {
-      console.log(location.state.uid);
-      navigate('/user-information', {state: {uid: location.state.uid}}); // Replace '/new-page' with your desired route
+      navigate('/user-information'); // Replace '/new-page' with your desired route
     }, 7000);
 
     return () => {

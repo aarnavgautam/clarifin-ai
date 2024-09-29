@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './User.css';
 import next from '../../assets/next_arrow.png';
-import { db } from '../../firebaseConfig/firebase.js';
+import { auth, db } from '../../firebaseConfig/firebase.js';
 import { doc, setDoc } from 'firebase/firestore';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const User = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [formValues, setFormValues] = useState({
     firstName: '',
@@ -30,16 +30,29 @@ const User = () => {
     }));
   };
 
-  const handleNextPage = async () => {
+  const handleSignUp = async () => {
     try {
-      await setDoc(doc(db, 'users', location.state.uid), {
-        ...formValues,
+      const userCredential = await createUserWithEmailAndPassword(auth, formValues.email, formValues.password);
+      // Store user info in Firestore
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        gender: formValues.gender,
+        age: formValues.age,
+        ethnicity: formValues.ethnicity,
+        income: formValues.income,
       });
-      console.log(formValues);
-      setAllCompleted(true);
-      navigate('/profile', { state: { uid: location.state.uid } });
+      console.log('Sign-up successful:', userCredential.user);
+      navigate('/profile', { state: { uid: userCredential.user.uid } }); // Navigate to profile page
     } catch (error) {
-      console.error("Error setting document: ", error);
+      console.error('Sign-up failed', error);
+      alert('Sign-up failed. Please try again.');
+    }
+  };
+
+  const handleNextPage = () => {
+    if (allCompleted) {
+      handleSignUp();
     }
   };
 
@@ -168,12 +181,12 @@ const User = () => {
                 <option value="asian">Asian</option>
                 <option value="pacific">Native Hawaiian or other Pacific Islander</option>
                 <option value="two-plus">Two or more races</option>
-                <option value="other">Other</option>
+                <option value="not-specified">Not Specified</option>
               </select>
             </div>
 
             <div className="user_option">
-              <label htmlFor="income">Annual Income:</label>
+              <label htmlFor="income">Income:</label>
               <select
                 id="income"
                 name="income"
@@ -181,28 +194,23 @@ const User = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select your annual income</option>
-                <option value="under-20000">Less than $20,000</option>
-                <option value="20000-34999">$20,000 - $34,999</option>
-                <option value="35000-49999">$35,000 - $49,999</option>
-                <option value="50000-74999">$50,000 - $74,999</option>
-                <option value="75000-99999">$75,000 - $99,999</option>
-                <option value="100000-149999">$100,000 - $149,999</option>
-                <option value="150000-199999">$150,000 - $199,999</option>
-                <option value="200000-299999">$200,000 - $299,999</option>
-                <option value="300000-more">$300,000 or more</option>
+                <option value="">Select your income range</option>
+                <option value="under-25k">Under $25,000</option>
+                <option value="25k-50k">$25,000 - $50,000</option>
+                <option value="50k-75k">$50,000 - $75,000</option>
+                <option value="75k-100k">$75,000 - $100,000</option>
+                <option value="over-100k">Over $100,000</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
               </select>
             </div>
           </div>
+
+          <img src={next} onClick = {handleNextPage} className = "nextLogo pulse fade-in" alt="Next" />
         </form>
-
-        <p className="warning">*Must complete all fields before moving forward.</p>
-
       </div>
-
-      {allCompleted && <img src={next} onClick={handleNextPage} className="nextLogo pulse fade-in" alt="Next logo" />}
     </section>
   );
 };
 
 export default User;
+

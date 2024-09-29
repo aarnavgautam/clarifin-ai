@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import './Home.css';
 import purpleLogo from '../../assets/clarifina.png';
-import { auth, db } from '../../firebaseConfig/firebase.js';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { useNavigate} from 'react-router-dom';
+import { auth } from '../../firebaseConfig/firebase.js';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  // const [isLogin, setIsLogin] = useState(true);
+
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     try {
@@ -19,30 +18,13 @@ const Home: React.FC = () => {
       // Successful login, you can get user data from userCredential.user
       console.log('Login successful:', userCredential);
       localStorage.setItem('user', JSON.stringify(userCredential.user)); // Save user data to localStorage
-      navigate("/welcome", {state: {uid: userCredential.user.uid}});
+      navigate("/profile", { state: { uid: userCredential.user.uid } }); // Navigate to profile page
     } catch (error) {
       console.error('Login failed', error);
       alert('Login failed. Please check your username and password.');
     }
   };
 
-  const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent default button action
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, username, password);
-      // Successful sign-up, user is automatically logged in
-      console.log('Sign-up successful:', userCredential.user);
-      alert('Sign-up successful! You can now log in.');
-    
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
-        username: userCredential.user.email,
-      });
-      alert('Sign up successful! You can now log in.');
-    } catch (error) {
-      console.error('Sign-up failed', error);
-      alert('Sign-up failed. Please try again.');
-    }
-  };
   return (
     <section className="home_container animated_background">
       <div className="home_content">
@@ -75,11 +57,12 @@ const Home: React.FC = () => {
             </div>
             <button type="submit">Login</button>
             <p>Don't have an account? 
-              <span className = "signUp"
-                onClick={handleSignUp} 
-                style={{color: 'white', textDecoration: 'underline', cursor: 'pointer' }}
+              <span 
+                className="signUp"
+                onClick={() => navigate("/welcome")} // Navigate to the User Information screen
+                style={{ color: 'white', textDecoration: 'underline', cursor: 'pointer' }}
               >
-                 Sign up
+                Sign up
               </span>.
             </p>
           </form>
@@ -88,4 +71,5 @@ const Home: React.FC = () => {
     </section>
   );
 }
+
 export default Home;
