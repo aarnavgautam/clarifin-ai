@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/clarifin-ai/static/css/main.efd047f6.css",
-    "main.js": "/clarifin-ai/static/js/main.47ad67a2.js",
+    "main.css": "/clarifin-ai/static/css/main.fbf2d48e.css",
+    "main.js": "/clarifin-ai/static/js/main.ba13393d.js",
     "static/js/453.ed3810f9.chunk.js": "/clarifin-ai/static/js/453.ed3810f9.chunk.js",
     "static/media/clarifina.png": "/clarifin-ai/static/media/clarifina.caa1c4c307a68aa8154e.png",
     "static/media/next_arrow.png": "/clarifin-ai/static/media/next_arrow.4ff5d1e1bdd154009a7e.png",
     "static/media/bookmark.png": "/clarifin-ai/static/media/bookmark.61e8f8a17ebb56e71f42.png",
     "index.html": "/clarifin-ai/index.html",
-    "main.efd047f6.css.map": "/clarifin-ai/static/css/main.efd047f6.css.map",
-    "main.47ad67a2.js.map": "/clarifin-ai/static/js/main.47ad67a2.js.map",
+    "main.fbf2d48e.css.map": "/clarifin-ai/static/css/main.fbf2d48e.css.map",
+    "main.ba13393d.js.map": "/clarifin-ai/static/js/main.ba13393d.js.map",
     "453.ed3810f9.chunk.js.map": "/clarifin-ai/static/js/453.ed3810f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.efd047f6.css",
-    "static/js/main.47ad67a2.js"
+    "static/css/main.fbf2d48e.css",
+    "static/js/main.ba13393d.js"
   ]
 }
