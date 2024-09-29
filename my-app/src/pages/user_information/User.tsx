@@ -1,8 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './User.css';
 import next from '../../assets/next_arrow.png';
+import { db } from '../../firebaseConfig/firebase.js';
+import {doc, setDoc} from 'firebase/firestore';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 const User = () => {
+
+  const location = useLocation();
   const [formValues, setFormValues] = useState({
     gender: '',
     age: '',
@@ -18,6 +23,18 @@ const User = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleNextPage = async () => {
+    try {
+      await setDoc(doc(db, 'users', location.state.uid), {
+        ...formValues,  
+      });
+      console.log(formValues);
+      setAllCompleted(true);
+    } catch (error) {
+      console.error("Error setting document: ", error);
+    }
   };
 
   useEffect(() => {
@@ -117,7 +134,7 @@ const User = () => {
         </form>
       </div>
 
-      {allCompleted && <img src={next} className="nextLogo pulse fade-in" alt="Next logo" />}
+      {allCompleted && <img src={next} onClick = {handleNextPage} className="nextLogo pulse fade-in" alt="Next logo" />}
     </section>
   );
 };
