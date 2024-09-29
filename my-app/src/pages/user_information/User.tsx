@@ -1,24 +1,28 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './User.css';
 import next from '../../assets/next_arrow.png';
-import { db} from '../../firebaseConfig/firebase.js';
-import {doc, setDoc} from 'firebase/firestore';
-import {useNavigate, useLocation} from 'react-router-dom';
+import { db } from '../../firebaseConfig/firebase.js';
+import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [formValues, setFormValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
     gender: '',
     age: '',
     ethnicity: '',
     income: '',
   });
 
-
   const [allCompleted, setAllCompleted] = useState(false);
 
-  const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormValues((prev) => ({
       ...prev,
@@ -29,18 +33,18 @@ const User = () => {
   const handleNextPage = async () => {
     try {
       await setDoc(doc(db, 'users', location.state.uid), {
-        ...formValues,  
+        ...formValues,
       });
       console.log(formValues);
       setAllCompleted(true);
-      navigate('/profile', {state: {uid: location.state.uid}});
+      navigate('/profile', { state: { uid: location.state.uid } });
     } catch (error) {
       console.error("Error setting document: ", error);
     }
   };
 
   useEffect(() => {
-    const allFilled = Object.values(formValues).every((value) => value !== '');
+    const allFilled = Object.values(formValues).every((value) => value.trim() !== '');
     setAllCompleted(allFilled);
   }, [formValues]);
 
@@ -50,6 +54,62 @@ const User = () => {
 
       <div className="user_selections">
         <form>
+          {/* First Name Field */}
+          <div className="form_row">
+            <div className="user_option">
+              <label htmlFor="firstName">First Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formValues.firstName}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            {/* Last Name Field */}
+            <div className="user_option">
+              <label htmlFor="lastName">Last Name:</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formValues.lastName}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Email and Password */}
+          <div className="form_row">
+            <div className="user_option">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formValues.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="user_option">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formValues.password}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Existing fields for gender, age, etc. */}
           <div className="form_row">
             <div className="user_option">
               <label htmlFor="gender">Gender:</label>
@@ -57,7 +117,7 @@ const User = () => {
                 id="gender"
                 name="gender"
                 value={formValues.gender}
-                onChange={handleDropdownChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Select your gender</option>
@@ -74,7 +134,7 @@ const User = () => {
                 id="age"
                 name="age"
                 value={formValues.age}
-                onChange={handleDropdownChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Select your age range</option>
@@ -90,6 +150,7 @@ const User = () => {
             </div>
           </div>
 
+          {/* Existing fields for ethnicity and income */}
           <div className="form_row">
             <div className="user_option">
               <label htmlFor="ethnicity">Ethnicity:</label>
@@ -97,7 +158,7 @@ const User = () => {
                 id="ethnicity"
                 name="ethnicity"
                 value={formValues.ethnicity}
-                onChange={handleDropdownChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Select your ethnicity</option>
@@ -117,7 +178,7 @@ const User = () => {
                 id="income"
                 name="income"
                 value={formValues.income}
-                onChange={handleDropdownChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Select your annual income</option>
@@ -134,9 +195,12 @@ const User = () => {
             </div>
           </div>
         </form>
+
+        <p className="warning">*Must complete all fields before moving forward.</p>
+
       </div>
 
-      {allCompleted && <img src={next} onClick = {handleNextPage} className="nextLogo pulse fade-in" alt="Next logo" />}
+      {allCompleted && <img src={next} onClick={handleNextPage} className="nextLogo pulse fade-in" alt="Next logo" />}
     </section>
   );
 };

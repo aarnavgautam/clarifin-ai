@@ -4,6 +4,8 @@ import { ref, uploadBytesResumable, getDownloadURL, listAll } from 'firebase/sto
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Profile.css';
 
+import logo from '../../assets/clarifina.png'
+
 const Profile: React.FC = () => {
   const [documents, setDocuments] = useState<{ url: string, name: string }[]>([]); 
   const [progress, setProgress] = useState<number>(0);
@@ -81,26 +83,36 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <div className="profile_documents_preview">
-        <input type="file" onChange={handleFileUpload} />
-        {progress > 0 && <p>Upload progress: {progress}%</p>}
-        {documents.length > 0 ? (
-          <div className="documents-grid">
-            {documents.map((doc, ind) => (
-              <div 
-                key={ind} 
-                className="document-card" 
-                onClick={() => handleCardClick(doc.url)}
-              >
-                <h3>{doc.name}</h3> {/* Display the document's name as the heading */}
-                <p>Click to view the document</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No documents uploaded yet.</p>
-        )}
+    <section className = "profile_container">
+      <div className = "profile_header">
+
       </div>
+      
+        <div className="profile_documents_preview">
+
+          <img src = {logo} className = "profileLogo" />
+
+          <input type="file" onChange={handleFileUpload} />
+          {progress > 0 && <p>Upload progress: {progress}%</p>}
+          {documents.length > 0 ? (
+            <div className="documents-grid">
+              {documents.map((doc, ind) => (
+                <div 
+                  key={ind} 
+                  className="document-card" 
+                  onClick={() => handleCardClick(doc.url)}
+                >
+                  <h3>{doc.name}</h3> {/* Display the document's name as the heading */}
+                  <p>Click to view the document</p>
+                </div>
+              ))}
+            </div>
+      ) : (
+        <p>No documents uploaded yet.</p>
+      )}
+        </div>
+    </section>
+     
     </>
   );
 };

@@ -74,8 +74,13 @@ const Home: React.FC = () => {
               />
             </div>
             <button type="submit">Login</button>
-            <p>Don't have an account?
-              <button onClick={handleSignUp} type="button">Sign up</button>
+            <p>Don't have an account? 
+              <span className = "signUp"
+                onClick={handleSignUp} 
+                style={{color: 'white', textDecoration: 'underline', cursor: 'pointer' }}
+              >
+                 Sign up
+              </span>.
             </p>
           </form>
         </div>

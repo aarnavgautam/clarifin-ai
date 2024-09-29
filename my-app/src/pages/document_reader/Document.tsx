@@ -213,9 +213,9 @@ const Document: React.FC = () => {
       
       <div className="document_button_container">
         <img src = {help} className = "helpIcon doc_option" onClick={() => setCurrentSlide(0)} />
-        <button className="button_normal doc_option" onClick={() => setCurrentSlide(1)}>Word Selection</button>
-        <button className="button_normal doc_option" onClick={() => setCurrentSlide(2)}>Paragraph</button>
-        <button className="button_special doc_option" onClick={() => setCurrentSlide(3)}>
+        <button className="button_normal doc_option doc_button" onClick={() => setCurrentSlide(1)}>Word Selection</button>
+        <button className="button_normal doc_option doc_button" onClick={() => setCurrentSlide(2)}>Paragraph</button>
+        <button className="button_special doc_option doc_button" onClick={() => setCurrentSlide(3)}>
           <span className="text">Our Suggestions</span>
           <span className="shimmer"></span>
         </button>

@@ -62,24 +62,46 @@
     margin-right: 10px;
 }
 
+input,
 select {
     width: 100%; 
-    padding: 10px; 
-    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px; 
     border: none; 
     background-color: white; 
     color: black; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
+    font-size: 16px; 
+    transition: box-shadow 0.3s ease; 
+}
+
+input:focus,
+select:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(99, 91, 255, 0.7); /* Glow effect on focus */
+}
+
+.user_option {
+    flex: .9;
+    margin-right: 20px;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 .user_option:last-child {
-    margin-right: 0; 
+    margin-right: 0;
 }
+
 .nextLogo {
     width: 75px;
     position: absolute;
     right: 20px; 
     bottom: 20px; 
     z-index: 10; 
+    cursor: pointer;
     animation: fade-in_logo 1.5s ease-in forwards, pulse 2s infinite 1.5s; 
 }
 
@@ -108,4 +130,11 @@ select {
     100% {
         transform: scale(0.9);
     }
+}
+
+.warning {
+    color: white;
+    font-style: italic;
+    display: flex;
+    justify-content: center;
 }
