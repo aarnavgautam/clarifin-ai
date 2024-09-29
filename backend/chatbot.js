@@ -58,7 +58,43 @@ const getChatHistory = (req, res) => {
   res.json({ history: conversationHistory });
 };
 
+// Checking financial terminology validity
+const isFinanceTerm =  async (req, res) => {
+  const { text } = req.body;
+  console.log(text);
+
+  if (!text) {
+    return res.status(400).json({ error: "No text provided" });
+  }
+
+  try {
+    // Make a call to OpenAI API to determine if the text contains complex financial terminology
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        { role: 'system', content: `Determine if the following text contains financial terminology that may not be understood by some audiences. 
+          Respond with "yes" if it does, and "no" if it does not.\n\n"${text}"` }
+      ],
+    });
+
+    const aiMessage = response.choices[0].message.content.toLowerCase();
+
+    if (aiMessage == "yes") {
+      console.log("Finance term has been found!");
+      res.json({ isComplex: true });
+    } else {
+      console.log("Non-Finance term");
+      res.json({ isComplex: false });
+    }
+  } catch (error) {
+    console.error("Error with OpenAI API:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   handleChat,
-  getChatHistory
+  getChatHistory,
+  isFinanceTerm
 };
