@@ -1,34 +1,123 @@
-/* .profile_container {
-  padding-right: 20px;
+.document_container {
+  padding: 0 20px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.document_logo {
+  width: 100%;
+  margin-bottom: 20px; 
+}
+
+/* name */
+.profile_welcome {
+  font-size: 60px;
+  text-align: left;
+  font-weight: 500;
+  color: black;
+  margin-top: -10px;
+}
+
+/* upload */
+.upload {
+  background-color: white;
+  padding: 50px; 
+  border-radius: 5px;
+  font-size: 20px;
+  width: 100%; 
+  box-sizing: border-box; 
+  margin-bottom: 20px; 
+  
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadtxt {
+  font-weight: 400;
+  color: white; 
+  font-size: 40px;
+  font-style: italic;
+}
+
+.profile_documents_preview {
+  margin-top: 40px;
+  background-color: #635bff;
+  border-radius: 10px;
+  width: 100%;
+  padding: 50px;
+  max-width: 1200px; 
+  height: 800px; 
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.profile_welcome {
+  font-size: 60px;
+  text-align: left;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 30px; 
 }
 
 .documents-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-  }
-  
-  .document-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    width: 200px;
-    text-align: center;
-  }
-  
-  .document-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .document-card h3 {
-    margin: 0;
-  }
-  
-  .document-card p {
-    margin: 10px 0 0;
-  }
-   */
+  width: 100%; 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 20px; 
+  margin-top: 25px; 
+}
+
+.document-card {
+  background-color: #f9f9f9;
+  padding: 20px; /* Reduce padding if necessary */
+  border: 3px solid #e0e0e0; /* Add a border */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced drop shadow */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  text-align: center;
+  padding-top: 20px;
+  width: 100%; /* Each card fills the grid cell */
+  box-sizing: border-box; /* Include padding and border in total width */
+}
+
+.document-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+}
+
+.document-card h3 {
+  margin: 0;
+}
+
+.document-card p {
+  margin: 10px 0 0;
+}
+
+.profile_documents_preview .noDoc {
+  color: white; /* Adjust as needed */
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noDocContainer {
+  flex: 1; /* Allow it to take available space */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100%; /* Full height of the parent */
+}
+
+.noDoc {
+  color: white; /* Adjust as needed */
+  font-size: 20px;
+  text-align: center;
+  margin-top: 30px;
+}

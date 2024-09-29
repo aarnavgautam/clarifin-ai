@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,7 +18,12 @@ const Home: React.FC = () => {
       // Successful login, you can get user data from userCredential.user
       console.log('Login successful:', userCredential);
       localStorage.setItem('user', JSON.stringify(userCredential.user)); // Save user data to localStorage
-      navigate("/profile", { state: { uid: userCredential.user.uid } }); // Navigate to profile page
+      if (isSignUp) {
+        navigate('/welcome', { state: { uid: userCredential.user.uid } } );
+      } else {
+        navigate('/profile', { state: { uid: userCredential.user.uid } });
+      }
+      // navigate("/profile", { state: { uid: userCredential.user.uid } }); // Navigate to profile page
     } catch (error) {
       console.error('Login failed', error);
       alert('Login failed. Please check your username and password.');

@@ -17,7 +17,6 @@ const Profile: React.FC = () => {
   const fetchDocuments = async () => {
     if (auth.currentUser) {
       const folderRef = ref(storage, `documents/${auth.currentUser.uid}`);
-
       try {
         const res = await listAll(folderRef);
         const docs = await Promise.all(
@@ -77,8 +76,18 @@ const Profile: React.FC = () => {
   };
 
   // Handle card click to navigate to the document viewer
-  const handleCardClick = (docUrl: string) => {
-    navigate('/document', { state: { downloadURL: docUrl, uid: location.state.uid } });
+  const handleCardClick = async (docUrl: string, docName: string) => {
+    try {
+      const response = await fetch(docUrl);
+      const blob = await response.blob();
+      const fileName = docName || "download.pdf";
+      const navFile = new File([blob], fileName, { type: 'application/pdf' });
+      navigate('/document', { state: { downloadURL: docUrl, uid: location.state.uid, incomingFile: navFile } });;
+    }
+    catch (error) {
+      console.error('Error downloading PDF:', error);
+      throw error;
+    }
   };
 
   return (
@@ -100,7 +109,7 @@ const Profile: React.FC = () => {
                 <div 
                   key={ind} 
                   className="document-card" 
-                  onClick={() => handleCardClick(doc.url)}
+                  onClick={() => handleCardClick(doc.url, doc.name)}
                 >
                   <h3>{doc.name}</h3> {/* Display the document's name as the heading */}
                   <p>Click to view the document</p>
