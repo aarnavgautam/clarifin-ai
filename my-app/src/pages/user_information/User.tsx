@@ -46,7 +46,7 @@ const User = () => {
 
   return (
     <section className="user_information_container">
-      <h1>Awesome. Tell us more about you.</h1>
+      <h1>Tell us more about you.</h1>
 
       <div className="user_selections">
         <form>
