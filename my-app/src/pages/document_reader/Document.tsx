@@ -24,20 +24,17 @@ const Document: React.FC = () => {
   const [clickedWord, setClickedWord] = useState<string>("Select a word.");
   const [wordDescription, setWordDescription] = useState<string>("Select a word to see more!");
   const [analogy, setAnalogy] = useState<string>("You'll see an analogy here soon...");
+  
   const highlightPluginInstance = highlightPlugin();
   
   useEffect(() => {
-    const incomingFile = location.state?.incomingFile;
-    const downloadURL = location.state?.downloadURL;
 
-    if (incomingFile instanceof File) {
-      setFile(incomingFile);
-    } else if (typeof downloadURL === 'string') {
-      setPdfUrl(downloadURL);
-    } else {
-      console.error("Invalid file or URL provided");
-    }
-  }, [location.state]);
+    setPdfUrl(location.state.downloadURL);
+    setFile(location.state.incomingFile);
+    handleUploadAndProcess();
+    // Fetch chat history when component mounts
+    // fetchChatHistory();
+  }, [file]);
 /*
   // const fetchPdfFile = async () => {
   //   try {
@@ -60,6 +57,8 @@ const Document: React.FC = () => {
     }
   };
 */
+*/
+
   const handleHighlightClick = async (highlight: any) => {
     alert("Your word has been selected, stay tuned for the explanation!");
     const clickedText = highlight.content;
@@ -85,6 +84,32 @@ const Document: React.FC = () => {
     setAnalogy('Error: Unable to get a response from the server.');
   }
 };
+  // For the chatbot, might not be necessary
+    alert("Your word has been selected, stay tuned for the explanation!");
+    const clickedText = highlight.content;
+    setClickedWord(clickedText);
+    try {
+      const res = await axios.post("http://localhost:5001/api/chat", {
+        message: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].}`,
+    });
+    console.log(message);
+    const botResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
+    const [descriptionResponse, analogyResponse] = botResponse.split("Analogy: ");
+    setWordDescription(descriptionResponse);
+    setAnalogy(analogyResponse || 'No Analogy Available.');
+    // can possibly remove chat history here
+    setChatHistory((prevHistory) => [
+      ...prevHistory,
+      { role: "user", content: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].` },
+      { role: "bot", content: res.data.message },
+    ]);
+  } catch (error) {
+    console.error('Error communicating with the API', error);
+    setWordDescription('Error: Unable to get a response from the server.');
+    setAnalogy('Error: Unable to get a response from the server.');
+  }
+};
+
   // For the chatbot, might not be necessary
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -177,7 +202,7 @@ const Document: React.FC = () => {
           <p>
             {wordDescription}
           </p>
-          <p><strong>Analogy:{analogy}</strong> .</p>
+          <p><strong>Analogy:{analogy}</strong> .</p>  
         </>
       ),
     },

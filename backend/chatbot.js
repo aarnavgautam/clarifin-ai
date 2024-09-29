@@ -17,7 +17,7 @@ const handleChat = async (req, res) => {
 
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: 'You are a helpful financial advisor who can simplify and explain financial terms.' },
         ...conversationHistory // Include the full conversation history
@@ -71,7 +71,7 @@ const isFinanceTerm =  async (req, res) => {
     // Make a call to OpenAI API to determine if the text contains complex financial terminology
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: `Determine if the following text contains financial terminology that may not be understood by some audiences. 
           Respond with "yes" if it does, and "no" if it does not.\n\n"${text}"` }
