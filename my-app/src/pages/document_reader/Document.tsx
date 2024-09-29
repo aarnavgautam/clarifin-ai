@@ -5,8 +5,11 @@ import help from '../../assets/helpIcon.png';
 import logo from '../../assets/clarifina.png';
 import sample from '../../assets/samplePdf.png';
 import bookmark from '../../assets/bookmark.png';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const Document: React.FC = () => {
+  const location = useLocation();
+  console.log(location.state);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   const slides = [
