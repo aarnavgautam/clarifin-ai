@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./chatbot.css";
 const Chatbot: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch chat history when component mounts
     fetchChatHistory();
   }, []);
 
@@ -31,14 +31,13 @@ const Chatbot: React.FC = () => {
         message,
       });
 
-      // Append new message and the bot response to chat history
       setChatHistory((prevHistory) => [
         ...prevHistory,
-        { role: "user", content: message }, // User message
-        { role: "bot", content: res.data.message }, // Bot response
+        { role: "user", content: message }, 
+        { role: "bot", content: res.data.message },
       ]);
 
-      setMessage(""); // Clear the input field
+      setMessage(""); 
     } catch (error) {
       console.error("Error communicating with the API", error);
       setChatHistory((prevHistory) => [
@@ -51,31 +50,37 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Financial Advisor Chatbot</h1>
-
-      <div className="chat-history" style={{ marginBottom: "20px", height: "300px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px" }}>
-        {chatHistory.map((message, index) => (
-          <div key={index} className={`message ${message.role}`} style={{ marginBottom: "10px" }}>
-            <strong>{message.role === "user" ? "You" : "Bot"}:</strong> {message.content}
-          </div>
-        ))}
+    <div className="chatbot-container">
+      <div className="chat-toggle" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "Close Chat" : "Open Chat"}
       </div>
+      {isOpen && (
+        <div className="chat-window">
+          <h1>Financial Advisor Chatbot</h1>
+          <div className="chat-history" style={{ marginBottom: "20px", height: "300px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px" }}>
+            {chatHistory.map((message, index) => (
+              <div key={index} className={`message ${message.role}`} style={{ marginBottom: "10px" }}>
+                <strong>{message.role === "user" ? "You" : "Bot"}:</strong> {message.content}
+              </div>
+            ))}
+          </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Ask your financial question..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={isLoading}
-          style={{ width: "400px", padding: "10px" }}
-        />
-        <br />
-        <button type="submit" disabled={isLoading} style={{ marginTop: "10px" }}>
-          {isLoading ? "Sending..." : "Send"}
-        </button>
-      </form>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Ask your financial question..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              disabled={isLoading}
+              style={{ width: "255px", padding: "10px" }}
+            />
+            <br />
+            <button type="submit" disabled={isLoading} style={{ marginTop: "10px" }}>
+              {isLoading ? "Sending..." : "Send"}
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
