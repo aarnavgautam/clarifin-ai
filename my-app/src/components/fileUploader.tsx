@@ -57,8 +57,8 @@ const FileUploader: React.FC = () => {
 
             {/* Display PDF only when a file is uploaded */}
             {pdfUrl && (
-                <div style={{ width: '500px', height: '500px', marginTop: '20px', position: 'relative' }}>
-                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+                <div style={{ width: '1000px', height: '500px', marginTop: '20px', position: 'relative' }}>
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js">
                         <Viewer
                             fileUrl={pdfUrl}
                             plugins={[highlightPluginInstance]}
