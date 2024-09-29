@@ -26,9 +26,7 @@ const Document: React.FC = () => {
   const [analogy, setAnalogy] = useState<string>("You'll see an analogy here soon...");
   const [summary, setSummary] = useState<string>("Summary of the paragraph will be displayed here.");
   const highlightPluginInstance = highlightPlugin();
-  
   useEffect(() => {
-
     setPdfUrl(location.state.downloadURL);
     setFile(location.state.incomingFile);
     handleUploadAndProcess();
@@ -57,7 +55,6 @@ const Document: React.FC = () => {
     }
   };
 */
-
 const handleSummarizeDocument = async () => {
   setIsLoading(true);
   try {
@@ -76,7 +73,6 @@ const handleSummarizeDocument = async () => {
     setIsLoading(false);
   }
 };
-
   const handleHighlightClick = async (highlight: any) => {
     alert("Your word has been selected, stay tuned for the explanation!");
     const clickedText = highlight.content;
@@ -97,27 +93,6 @@ const handleSummarizeDocument = async () => {
     setAnalogy('Error: Unable to get a response from the server.');
   }
 };
-  // For the chatbot, might not be necessary
-    alert("Your word has been selected, stay tuned for the explanation!");
-    const clickedText = highlight.content;
-    setClickedWord(clickedText);
-    try {
-      const res = await axios.post("http://localhost:5001/api/chat", {
-        message: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].}`,
-      });
-      console.log(message);
-      const botResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
-      const [descriptionResponse, analogyResponse] = botResponse.split("Analogy: ");
-      setWordDescription(descriptionResponse);
-      setAnalogy(analogyResponse || 'No Analogy Available.');
-      // can possibly remove chat history here
-    } catch (error) {
-    console.error('Error communicating with the API', error);
-    setWordDescription('Error: Unable to get a response from the server.');
-    setAnalogy('Error: Unable to get a response from the server.');
-  }
-};
-
   // For the chatbot, might not be necessary
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,7 +118,7 @@ const handleSummarizeDocument = async () => {
     setIsLoading(false);
   };
   const handleUploadAndProcess = async () => {
-    if (file instanceof File) {
+    if (file) {
       await uploadFile(file);
       const extractedData = await processFile(file.name);
       extractedData.forEach(async (line: any) => {
@@ -210,7 +185,7 @@ const handleSummarizeDocument = async () => {
           <p>
             {wordDescription}
           </p>
-          <p><strong>Analogy:{analogy}</strong> .</p>  
+          <p><strong>Analogy:{analogy}</strong> .</p>
         </>
       ),
     },
@@ -247,9 +222,9 @@ const handleSummarizeDocument = async () => {
       </a>
       <div className="document_button_container">
         <img src = {help} className = "helpIcon doc_option" onClick={() => setCurrentSlide(0)} />
-        <button className="button_normal doc_option" onClick={() => setCurrentSlide(1)}>Word Selection</button>
-        <button className="button_normal doc_option" onClick={() => setCurrentSlide(2)}>Paragraph</button>
-        <button className="button_special doc_option" onClick={() => setCurrentSlide(3)}>
+        <button className="button_normal doc_option doc_button" onClick={() => setCurrentSlide(1)}>Word Selection</button>
+        <button className="button_normal doc_option doc_button" onClick={() => setCurrentSlide(2)}>Paragraph</button>
+        <button className="button_special doc_option doc_button" onClick={() => setCurrentSlide(3)}>
           <span className="text">Our Suggestions</span>
           <span className="shimmer"></span>
         </button>
