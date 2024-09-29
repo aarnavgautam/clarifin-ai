@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './Home.css';
 import purpleLogo from '../../assets/purple_logo.png';
-import { auth } from '../../firebaseConfig/firebase.js';
+import { auth, db } from '../../firebaseConfig/firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-const Home = () => {
+const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(true);
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     try {
@@ -22,6 +22,7 @@ const Home = () => {
       alert('Login failed. Please check your username and password.');
     }
   };
+
   const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent default button action
     try {
@@ -29,6 +30,11 @@ const Home = () => {
       // Successful sign-up, user is automatically logged in
       console.log('Sign-up successful:', userCredential.user);
       alert('Sign-up successful! You can now log in.');
+    
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        username: userCredential.user.email,
+      });
+      alert('Sign up successful! You can now log in.');
     } catch (error) {
       console.error('Sign-up failed', error);
       alert('Sign-up failed. Please try again.');
