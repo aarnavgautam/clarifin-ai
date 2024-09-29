@@ -3,17 +3,13 @@ import { storage, auth } from '../../firebaseConfig/firebase.js';
 import { ref, uploadBytesResumable, getDownloadURL, listAll } from 'firebase/storage';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Profile.css';
-
-import logo from '../../assets/clarifina.png'
-
+import logo from '../../assets/clarifina.png';
 const Profile: React.FC = () => {
-  const [documents, setDocuments] = useState<{ url: string, name: string }[]>([]); 
+  const [documents, setDocuments] = useState<{ url: string; name: string; file: File | null }[]>([]);
   const [progress, setProgress] = useState<number>(0);
   const [downloadURL, setDownloadURL] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Fetch documents from Firebase Storage
   const fetchDocuments = async () => {
     if (auth.currentUser) {
       const folderRef = ref(storage, `documents/${auth.currentUser.uid}`);
@@ -22,33 +18,25 @@ const Profile: React.FC = () => {
         const docs = await Promise.all(
           res.items.map(async (itemRef) => {
             const url = await getDownloadURL(itemRef);
-            const name = itemRef.name; // Extract the file name
-            return { url, name }; // Return both the URL and file name
+            return { url, name: itemRef.name, file: null };
           })
         );
-
-        setDocuments(docs); 
+        setDocuments(docs);
         console.log(docs);
       } catch (error) {
         console.error('Error listing files:', error);
       }
     }
   };
-
   useEffect(() => {
-    fetchDocuments(); 
+    fetchDocuments();
   }, []);
-
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && auth.currentUser) {
       const selectedFile = e.target.files[0];
-
       if (selectedFile.type === 'application/pdf') {
         const storageRef = ref(storage, `documents/${auth.currentUser.uid}/${selectedFile.name}`);
-
         const uploadTask = uploadBytesResumable(storageRef, selectedFile);
-
         uploadTask.on(
           'state_changed',
           (snapshot) => {
@@ -63,9 +51,7 @@ const Profile: React.FC = () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref);
             setDownloadURL(url);
             console.log('File available at', url);
-
             await fetchDocuments(); // Refresh document list
-
             navigate('/document', { state: { downloadURL: url, uid: location.state.uid, incomingFile: selectedFile } });
           }
         );
@@ -74,8 +60,6 @@ const Profile: React.FC = () => {
       }
     }
   };
-
-  // Handle card click to navigate to the document viewer
   const handleCardClick = async (docUrl: string, docName: string) => {
     try {
       const response = await fetch(docUrl);
@@ -89,41 +73,45 @@ const Profile: React.FC = () => {
       throw error;
     }
   };
-
   return (
     <>
-    <section className = "profile_container">
-      <div className = "profile_header">
-
-      </div>
-      
+      <div className="document_container">
+        <img src={logo} className="document_logo" alt="Logo" />
         <div className="profile_documents_preview">
-
-          <img src = {logo} className = "profileLogo" />
-
-          <input type="file" onChange={handleFileUpload} />
+          <h1 className="profile_welcome">Welcome back John.</h1>
+          {/* Upload Section */}
+          <h2 className="uploadtxt">Upload a file.</h2>
+          <input type="file" onChange={handleFileUpload} className="upload" />
           {progress > 0 && <p>Upload progress: {progress}%</p>}
+          {/* Previous Documents Section */}
+          <h2 className="uploadtxt">Previous Documents:</h2>
           {documents.length > 0 ? (
             <div className="documents-grid">
               {documents.map((doc, ind) => (
-                <div 
-                  key={ind} 
-                  className="document-card" 
-                  onClick={() => handleCardClick(doc.url, doc.name)}
-                >
-                  <h3>{doc.name}</h3> {/* Display the document's name as the heading */}
+                <div key={ind} className="document-card" onClick={() => handleCardClick(doc.url, doc.name)}>
+                  <h3>{doc.name}</h3>
                   <p>Click to view the document</p>
                 </div>
               ))}
             </div>
-      ) : (
-        <p>No documents uploaded yet.</p>
-      )}
+          ) : (
+            <p className="noDoc">No previous documents uploaded yet.</p>
+          )}
         </div>
-    </section>
-     
+      </div>
     </>
   );
 };
-
 export default Profile;
+
+
+
+
+
+
+
+
+
+
+
+

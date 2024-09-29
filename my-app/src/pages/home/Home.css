@@ -32,11 +32,12 @@
 .home_login {
     background-color: #635BFF;
     border-radius: 10px;
-    padding: 2em 5em;
+    padding: 2em 7em !important;
     color: white;
     display: flex; /* Add this */
-    flex-direction: column; /* Add this */
-    align-items: center; /* Center items */
+    flex-direction: column !important; /* Add this */
+    align-items: center !important; /* Center items */
+    /* padding: 0; */
 }
 
 .home_login h2 {
@@ -48,10 +49,6 @@
     margin-top: 20px;
 }
 
-.home_login input {
-    padding-right: 35%;
-}
-
 .home_option_label {
     margin-bottom: 100px;
 }
@@ -59,14 +56,15 @@
 .home_login button {
     color: white;
     margin-top: 20px;
-    padding: 5px;
-    padding-left: 50px;
-    padding-right: 50px;
-    border-radius: 10px; /* Add px */
+    padding: 10px 50px; /* Adjust the padding */
+    border-radius: 10px; 
     background-color: transparent;
     border: 2px solid white;
-    cursor: pointer; /* Optional: change cursor on hover */
-    margin-left: 21%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* Center the text horizontally */
+    align-items: center; /* Center the text vertically */
+    width: 100%; /* Make button full width to center properly */
 }
 
 .home_login p {
