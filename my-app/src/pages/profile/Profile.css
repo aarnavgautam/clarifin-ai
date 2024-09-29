@@ -1,0 +1,30 @@
+.documents-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .document-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .document-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .document-card h3 {
+    margin: 0;
+  }
+  
+  .document-card p {
+    margin: 10px 0 0;
+  }
+  

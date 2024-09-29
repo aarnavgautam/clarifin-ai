@@ -2,29 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { storage, auth } from '../../firebaseConfig/firebase.js';
 import { ref, uploadBytesResumable, getDownloadURL, listAll } from 'firebase/storage';
 import { useNavigate, useLocation } from 'react-router-dom';
+import './Profile.css';
 
 const Profile: React.FC = () => {
-  const [documents, setDocuments] = useState<string[]>([]); 
+  const [documents, setDocuments] = useState<{ url: string, name: string }[]>([]); 
   const [progress, setProgress] = useState<number>(0);
   const [downloadURL, setDownloadURL] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fetch documents from Firebase Storage
   const fetchDocuments = async () => {
     if (auth.currentUser) {
       const folderRef = ref(storage, `documents/${auth.currentUser.uid}`);
 
       try {
         const res = await listAll(folderRef);
-        const urls = await Promise.all(
+        const docs = await Promise.all(
           res.items.map(async (itemRef) => {
             const url = await getDownloadURL(itemRef);
-            return url;
+            const name = itemRef.name; // Extract the file name
+            return { url, name }; // Return both the URL and file name
           })
         );
 
-        setDocuments(urls); 
-        console.log(urls);
+        setDocuments(docs); 
+        console.log(docs);
       } catch (error) {
         console.error('Error listing files:', error);
       }
@@ -35,6 +38,7 @@ const Profile: React.FC = () => {
     fetchDocuments(); 
   }, []);
 
+  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && auth.currentUser) {
       const selectedFile = e.target.files[0];
@@ -59,9 +63,9 @@ const Profile: React.FC = () => {
             setDownloadURL(url);
             console.log('File available at', url);
 
-            await fetchDocuments();
+            await fetchDocuments(); // Refresh document list
 
-            navigate('/Document', { state: { downloadURL: url, uid: location.state.uid, incomingFile: selectedFile } });
+            navigate('/document', { state: { downloadURL: url, uid: location.state.uid, incomingFile: selectedFile } });
           }
         );
       } else {
@@ -70,19 +74,29 @@ const Profile: React.FC = () => {
     }
   };
 
+  // Handle card click to navigate to the document viewer
+  const handleCardClick = (docUrl: string) => {
+    navigate('/document', { state: { downloadURL: docUrl, uid: location.state.uid } });
+  };
+
   return (
     <>
       <div className="profile_documents_preview">
         <input type="file" onChange={handleFileUpload} />
         {progress > 0 && <p>Upload progress: {progress}%</p>}
         {documents.length > 0 ? (
-          documents.map((doc, ind) => (
-            <div key={ind}>
-              <a href={doc} target="_blank" rel="noopener noreferrer">
-                <h3>PDF {ind + 1}</h3>
-              </a>
-            </div>
-          ))
+          <div className="documents-grid">
+            {documents.map((doc, ind) => (
+              <div 
+                key={ind} 
+                className="document-card" 
+                onClick={() => handleCardClick(doc.url)}
+              >
+                <h3>{doc.name}</h3> {/* Display the document's name as the heading */}
+                <p>Click to view the document</p>
+              </div>
+            ))}
+          </div>
         ) : (
           <p>No documents uploaded yet.</p>
         )}
