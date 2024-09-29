@@ -6,6 +6,7 @@ import {doc, setDoc} from 'firebase/firestore';
 import {useNavigate, useLocation} from 'react-router-dom';
 
 const User = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [formValues, setFormValues] = useState({
     gender: '',
@@ -32,6 +33,7 @@ const User = () => {
       });
       console.log(formValues);
       setAllCompleted(true);
+      navigate('/profile', {state: {uid: location.state.uid}});
     } catch (error) {
       console.error("Error setting document: ", error);
     }
