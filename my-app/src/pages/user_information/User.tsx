@@ -1,12 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './User.css';
 import next from '../../assets/next_arrow.png';
-import { db } from '../../firebaseConfig/firebase.js';
+import { db} from '../../firebaseConfig/firebase.js';
 import {doc, setDoc} from 'firebase/firestore';
 import {useNavigate, useLocation} from 'react-router-dom';
 
 const User = () => {
-
   const location = useLocation();
   const [formValues, setFormValues] = useState({
     gender: '',
@@ -14,6 +13,7 @@ const User = () => {
     ethnicity: '',
     income: '',
   });
+
 
   const [allCompleted, setAllCompleted] = useState(false);
 

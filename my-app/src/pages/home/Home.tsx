@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css';
-import purpleLogo from '../../assets/purple_logo.png';
+import purpleLogo from '../../assets/clarifina.png';
 import { auth, db } from '../../firebaseConfig/firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
     <section className="home_container animated_background">
       <div className="home_content">
         <div className="home_title">
-          <img src={logo} className="home_logo" alt="Logo" />
+          <img src={purpleLogo} className="home_logo" alt="Logo" />
           <h2>Clarifying financial documents, together.</h2>
         </div>
         <div className="home_login">
