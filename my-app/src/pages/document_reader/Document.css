@@ -4,22 +4,50 @@
 
 .document_logo {
     margin-top: 10px;
-    width: 20%;
+    width: 30%;
     display: block; 
     margin-left: auto; 
     margin-right: auto; 
 }
 
 /* all buttons */
-.document_button_container button {
+
+.document_button_container {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center align items vertically */
+    margin-top: 20px;
+    justify-content: space-evenly;
+}
+
+.doc_option {
+    margin-right: 30px;
+}
+
+.button_normal {
     font-size: 20px;
-    margin-right: 40px;
     padding: 10px 40px;
     border-radius: 10px;
     margin-bottom: 20px;
     font-weight: 600;
     border: 3px solid black;
+    margin-top: 20px;
 }
+
+.button_special {
+    font-size: 20px;
+    padding: 10px 40px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border: 3px solid black;
+    margin-top: 20px;
+}
+
+.helpIcon {
+    width: 6%;
+    cursor: pointer;
+}
+
 
 .button_normal {
     background-color: transparent;
@@ -29,6 +57,13 @@
     background-color: #182C51;
     color: white;
 }
+
+.instructions {
+    font-size: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
+    margin-top: 20%;
+}
   
 /* documents container */
 .document_container {
@@ -37,14 +72,6 @@
     align-items: center; 
     padding: 20px;
     text-align: center;
-}
-
-.document_container p {
-    margin-top: 50px;
-    margin-left: 200px;
-    margin-right: 200px;
-    font-style: italic;
-    font-size: 19px;
 }
 
 .document_content {
@@ -63,8 +90,14 @@
     border: 1px solid #182C51; 
 }
 
-  
   /* detail container */
+  
+.description {
+    margin-top: 30px;
+    margin-right: 10px;
+    font-style: italic;
+    font-size: 17px;
+}
 
 .document_content {
     display: flex;
@@ -77,12 +110,15 @@
 }
 
 .detail_container h1 {
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 200;
     color: white;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .detail_content {
+    position: relative; 
     flex-basis: 300px; 
     height: 450px; 
     width: 500px;
@@ -90,27 +126,90 @@
     color: black;
     background-color: white;
     border-radius: 10px; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto; 
     text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+/* Bookmark sliding down */
+@keyframes slideDown {
+    0% {
+        top: -100px; 
+        opacity: 0; 
+    }
+    100% {
+        top: -30px;
+        opacity: 1;  
+    }
+}
+
+.bookmark {
+    position: absolute; 
+    top: 20px; 
+    right: 0;
+    width: 27%;
+    z-index: 1;
+    opacity: 0; 
+    animation: slideDown 1s ease-out forwards;
+    animation-delay: 5s; 
+    padding-left: 20px;
 }
 
 .detail_content_inside {
     margin: 20px 30px;
 }
 
-/* word */
-
-mark {
+.analogy_title {
     font-size: 30px;
     font-weight: 600;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: bisque;
+    font-style: normal;
+    margin-bottom: -5px;
 }
 
-  /* button */
-  :root {
+.analogy {
+    /* background-color: rgb(187, 224, 255); */
+    background-color: #D8D8D8;
+    padding: 10px;
+    border-radius: 10px;
+    font-style: italic;
+    margin-left: -6px;
+}
+
+/* word */
+.highlight {
+    background-color: rgb(187, 224, 255);
+    border-radius: 10;
+    max-width: 80%; 
+}
+
+.word {
+    margin-top: 10px;
+    z-index: 999; 
+    position: relative; 
+    font-size: 50px;
+    font-weight: 600;
+    white-space: normal;  
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    margin-right: 20%; 
+    text-align: center;
+}
+
+.phonetic {
+    font-weight: 300;
+    font-size: 25px;
+    margin-top: -10px;
+}
+
+/* line */
+.line {
+    padding-right: 100px;
+}
+
+/* button */
+:root {
     --glow-hue: 222deg;
     --shadow-hue: 180deg;
     --spring-easing: linear(
@@ -119,7 +218,7 @@ mark {
     1.176 26.9%, 1.057 32.6%, 1.007 35.5%, 0.984, 0.968, 0.956, 0.949 42%,
     0.946 44.1%, 0.95 46.5%, 0.998 57.2%, 1.007, 1.011 63.3%, 1.012 68.3%,
     0.998 84%, 1
-  );
+    );
     --spring-duration: 1.33s;
 }
 @property --shimmer {
@@ -274,3 +373,17 @@ button.active .text {
 .pulsate {
     animation: pulsate 1s infinite; /* Pulsates every 1 second */
 }
+
+/* suggestions */
+.summary_title {
+    font-size: 30px;
+    font-weight: 600;
+    font-style: normal;
+    margin-top: 10px;
+}
+
+.summary {
+    margin-right: 100px;
+    margin-top: -15px;
+}
+

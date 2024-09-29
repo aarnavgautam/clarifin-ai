@@ -1,6 +1,7 @@
 import React from 'react';
 import './Home.css';
-import purpleLogo from '../../assets/purple_logo.png';
+
+import logo from '../../assets/clarifina.png';
 
 const Home = () => {
   
@@ -11,7 +12,7 @@ const Home = () => {
     <section className="home_container animated_background">
       <div className="home_content">
         <div className="home_title">
-          <img src={purpleLogo} className="home_logo" alt="Logo" />
+          <img src={logo} className="home_logo" alt="Logo" />
           <h2>Clarifying financial documents, together.</h2>
         </div>
 
