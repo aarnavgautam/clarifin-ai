@@ -4,19 +4,22 @@ import purpleLogo from '../../assets/purple_logo.png';
 import { auth, db } from '../../firebaseConfig/firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate} from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
   // const [isLogin, setIsLogin] = useState(true);
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       // Successful login, you can get user data from userCredential.user
-      console.log('Login successful:', userCredential.user);
+      console.log('Login successful:', userCredential);
       localStorage.setItem('user', JSON.stringify(userCredential.user)); // Save user data to localStorage
-      window.location.href = '/user-information';
+      navigate("/welcome", {state: {uid: userCredential.user.uid}});
     } catch (error) {
       console.error('Login failed', error);
       alert('Login failed. Please check your username and password.');
