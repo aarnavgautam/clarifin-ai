@@ -23,22 +23,21 @@ const Document: React.FC = () => {
   const [file, setFile] = useState<any>();
   const [pdfUrl, setPdfUrl] = useState<string >("");
   const [highlights, setHighlights] = useState<any[]>([]);
+  const [clickedWord, setClickedWord] = useState<string>("Select a word.");
+  const [wordDescription, setWordDescription] = useState<string>("Select a word to see more!");
+  const [analogy, setAnalogy] = useState<string>("You'll see an analogy here soon...");
+  
   const highlightPluginInstance = highlightPlugin();
 
   useEffect(() => {
 
     setPdfUrl(location.state.downloadURL);
-
-    // Fetch pdf
     setFile(location.state.incomingFile);
-
-    // Highlighting
     handleUploadAndProcess();
-
     // Fetch chat history when component mounts
     // fetchChatHistory();
   }, [file]);
-
+/*
   // const fetchPdfFile = async () => {
   //   try {
   //     // Fetch the PDF from the Firebase Storage download URL
@@ -61,12 +60,35 @@ const Document: React.FC = () => {
       console.error("Error fetching chat history:", error);
     }
   };
+*/
 
   const handleHighlightClick = async (highlight: any) => {
-    alert(highlight.content);
+    alert("Your word has been selected, stay tuned for the explanation!");
+    const clickedText = highlight.content;
+    setClickedWord(clickedText);
+    try {
+      const res = await axios.post("http://localhost:5001/api/chat", {
+        message: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].}`,
+    });
+    console.log(message);
+    const botResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
+    const [descriptionResponse, analogyResponse] = botResponse.split("Analogy: ");
+    setWordDescription(descriptionResponse);
+    setAnalogy(analogyResponse || 'No Analogy Available.');
+    // can possibly remove chat history here
+    setChatHistory((prevHistory) => [
+      ...prevHistory,
+      { role: "user", content: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].` },
+      { role: "bot", content: res.data.message },
+    ]);
+  } catch (error) {
+    console.error('Error communicating with the API', error);
+    setWordDescription('Error: Unable to get a response from the server.');
+    setAnalogy('Error: Unable to get a response from the server.');
   }
+};
 
-  // For the chatbot
+  // For the chatbot, might not be necessary
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
@@ -151,10 +173,10 @@ const Document: React.FC = () => {
       title: "Word Selection",
       content: (
         <>
-          <h2 className="word highlight">poindexters</h2>
+          <h2 className="word highlight">{clickedWord}</h2>
           <h3 className="phonetic">"poyn-DEK-stur"</h3>
           <p className="description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry...
+            {wordDescription}
           </p>
           <p className="analogy_title">Analogy</p>
           <p className="analogy">The person at a party who talks about complex science topics or coding instead of light conversation.</p>
@@ -165,12 +187,11 @@ const Document: React.FC = () => {
       title: "Paragraph",
       content: (
         <>
-          <h2 className="line"> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </h2>
+          <h2 className="line">{clickedWord}</h2>
           <p>
-            Serendipity is the occurrence of events by chance in a happy or beneficial way. 
-            It is often associated with unexpected discoveries that are fortunate or beneficial.
+            {wordDescription}
           </p>
-          <p><strong>Example:</strong> For example, finding a $20 bill in your coat pocket that you forgot about.</p>
+          <p><strong>Analogy:{analogy}</strong> .</p>  
         </>
       ),
     },
