@@ -26,7 +26,7 @@ const Document: React.FC = () => {
   const [clickedWord, setClickedWord] = useState<string>("Select a word.");
   const [wordDescription, setWordDescription] = useState<string>("Select a word to see more!");
   const [analogy, setAnalogy] = useState<string>("You'll see an analogy here soon...");
-  
+  const [summary, setSummary] = useState<string>("Summary of the paragraph will be displayed here.");
   const highlightPluginInstance = highlightPlugin();
 
   useEffect(() => {
@@ -62,6 +62,25 @@ const Document: React.FC = () => {
   };
 */
 
+const handleSummarizeDocument = async () => {
+  setIsLoading(true);
+  try {
+    const documentText = JSON.stringify(file);
+    const res = await axios.post("http://localhost:5001/api/chat", {
+      message: `Summarize ${documentText}}`,
+    });
+    console.log(message);
+    const summaryResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
+    const summary = summaryResponse;
+    setSummary(summary);
+  } catch (error) {
+    console.error('Error communicating with the API', error);
+    setSummary('Error: Unable to get a response from the server.');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   const handleHighlightClick = async (highlight: any) => {
     alert("Your word has been selected, stay tuned for the explanation!");
     const clickedText = highlight.content;
@@ -69,19 +88,14 @@ const Document: React.FC = () => {
     try {
       const res = await axios.post("http://localhost:5001/api/chat", {
         message: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].}`,
-    });
-    console.log(message);
-    const botResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
-    const [descriptionResponse, analogyResponse] = botResponse.split("Analogy: ");
-    setWordDescription(descriptionResponse);
-    setAnalogy(analogyResponse || 'No Analogy Available.');
-    // can possibly remove chat history here
-    setChatHistory((prevHistory) => [
-      ...prevHistory,
-      { role: "user", content: `Explain ${highlight.content} and give an analogy. Structure response as [description]. Analogy: [analogy].` },
-      { role: "bot", content: res.data.message },
-    ]);
-  } catch (error) {
+      });
+      console.log(message);
+      const botResponse = res.data.message.replace(/\*\*/g, '') || 'No Response Available.';
+      const [descriptionResponse, analogyResponse] = botResponse.split("Analogy: ");
+      setWordDescription(descriptionResponse);
+      setAnalogy(analogyResponse || 'No Analogy Available.');
+      // can possibly remove chat history here
+    } catch (error) {
     console.error('Error communicating with the API', error);
     setWordDescription('Error: Unable to get a response from the server.');
     setAnalogy('Error: Unable to get a response from the server.');
@@ -202,8 +216,7 @@ const Document: React.FC = () => {
           <img src={bookmark} className="bookmark" alt="Bookmark" />
           <p className="summary_title">Summary</p>
           <p className = "summary">
-            Serendipity is the occurrence of events by chance in a happy or beneficial way. 
-            It is often associated with unexpected discoveries that are fortunate or beneficial.
+            {summary}
           </p>
 
           <p className="analogy_title">Next Steps</p>
