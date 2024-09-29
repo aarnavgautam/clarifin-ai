@@ -61,7 +61,7 @@ const Profile: React.FC = () => {
 
             await fetchDocuments();
 
-            navigate('/Document', { state: { downloadURL: url, uid: location.state.uid } });
+            navigate('/Document', { state: { downloadURL: url, uid: location.state.uid, incomingFile: selectedFile } });
           }
         );
       } else {
