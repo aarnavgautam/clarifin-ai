@@ -1,6 +1,11 @@
 .document_button_container {
+    display: flex;  /* Align items in a row */
+    justify-content: space-around;  /* Spread items evenly */
+    align-items: center;  /* Center vertically */
     margin-top: 20px;
+    width: 50%; /* Full width */
 }
+
 
 .document_logo {
     margin-top: 10px;
@@ -13,10 +18,18 @@
 /* all buttons */
 
 .doc_button {
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Center align items vertically */
-    margin-top: 20px;
-    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    border: 3px solid black;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-left: 10px; /* Adds space between buttons */
 }
 
 .doc_option {
@@ -46,8 +59,8 @@
 .helpIcon {
     width: 6%;
     cursor: pointer;
+    margin-right: 20px; /* Adds space between help icon and next button */
 }
-
 
 .button_normal {
     background-color: transparent;
@@ -60,8 +73,7 @@
 
 .instructions {
     font-size: 30px;
-    padding-left: 60px;
-    padding-right: 60px;
+    line-height: 40px;
     margin-top: 20%;
 }
   
@@ -76,7 +88,7 @@
 
 .document_content {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-evenly; 
     width: 95%; 
     margin: 20px auto;
     background-color: #182C51;
@@ -85,12 +97,15 @@
 }
 
 .pdf_container {
-    flex: 1; 
-    margin-right: 20px; 
+    margin: 0px auto; 
     border: 1px solid #182C51; 
 }
 
   /* detail container */
+
+.detail_container{
+    margin: 0 auto;
+}
   
 .description {
     margin-top: 30px;
@@ -105,32 +120,31 @@
     width: 95%; 
     margin: 20px auto; 
     background-color: #182C51;
-    padding: 40px 20px; 
+    padding: 20px 20px 35px 20px; 
     border-radius: 10px; 
 }
 
-.detail_container h1 {
+.detail_container h1, .pdf_container h1 {
     font-size: 40px;
     font-weight: 200;
     color: white;
-    margin-bottom: 15px;
-    margin-top: 15px;
+    margin: 0 0 15px 0 !important;
+    padding: 0;
 }
 
 .detail_content {
     position: relative; 
     flex-basis: 300px; 
-    height: 450px; 
-    width: 500px;
-    padding: 20px; 
+    height: 500px; 
+    box-sizing: border-box;
+    width: 400px;
+    padding: 20px 25px; 
     color: black;
     background-color: white;
     border-radius: 10px; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto; 
     text-align: left;
-    padding-left: 50px;
-    padding-right: 50px;
 }
 
 /* Bookmark sliding down */
@@ -383,7 +397,37 @@ button.active .text {
 }
 
 .summary {
-    margin-right: 100px;
     margin-top: -15px;
 }
 
+#loading-div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center;
+    row-gap: 20px;
+}
+
+#loading-div h1{
+    font-weight: 700;
+    color: #182C51 !important;
+}
+
+.spinner {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #182C51; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

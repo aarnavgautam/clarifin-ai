@@ -38,6 +38,7 @@ const Document: React.FC = () => {
   const location = useLocation();
   console.log(location.state);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [showLoading, setShowLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<
     { role: string; content: string }[]
@@ -116,7 +117,6 @@ const Document: React.FC = () => {
   };
 
   const handleHighlightClick = async (highlight: any) => {
-    alert("Your word has been selected, stay tuned for the explanation!");
     const clickedText = highlight.content;
     setClickedWord(clickedText);
     try {
@@ -287,6 +287,10 @@ const Document: React.FC = () => {
             }
           }
         });
+
+        // Here is where we would stop the loading from being rendered
+        setShowLoading(false);
+
       }
     }
   };
@@ -298,7 +302,7 @@ const Document: React.FC = () => {
           <>
             <p className="instructions">
               Select the type of assistance you would like with the buttons
-              below. Whether that be with a word, paragraph summary, or our
+              below. Whether that be with a word or our
               personalized financial advice.
             </p>
           </>
@@ -309,7 +313,6 @@ const Document: React.FC = () => {
         content: (
           <>
             <h2 className="word highlight">{clickedWord}</h2>
-            <h3 className="phonetic">"poyn-DEK-stur"</h3>
             <p className="description">{wordDescription}</p>
             <p className="analogy_title">Analogy</p>
             <p className="analogy">
@@ -360,23 +363,24 @@ const Document: React.FC = () => {
         </a>
 
         <div className="document_button_container">
-          <img
-            src={help}
-            className="helpIcon doc_option"
+          <button
+            className="button_normal doc_option doc_button"
             onClick={() => setCurrentSlide(0)}
-          />
+          >
+            Instructions
+          </button>
           <button
             className="button_normal doc_option doc_button"
             onClick={() => setCurrentSlide(1)}
           >
             Word Selection
           </button>
-          <button
+          {/*<button
             className="button_normal doc_option doc_button"
             onClick={() => setCurrentSlide(2)}
           >
             Paragraph
-          </button>
+          </button>*/}
           <button
             className="button_special doc_option doc_button"
             onClick={() => setCurrentSlide(3)}
@@ -386,17 +390,28 @@ const Document: React.FC = () => {
           </button>
         </div>
 
-        <div className="document_content">
+        <div className="document_content" >
           <div className="pdf_container">
+
+            <h1> 
+              Document Viewer
+            </h1>
             {pdfUrl && (
+
               <div
                 style={{
                   width: "1000px",
                   height: "500px",
-                  marginTop: "20px",
+                  marginTop: "0px",
                   position: "relative",
                 }}
-              >
+              > 
+
+                {showLoading && (<div id="loading-div">
+                  <h1>Loading</h1>
+                  <div className="spinner"></div>
+                </div>)}
+
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js">
                   <Viewer
                     fileUrl={URL.createObjectURL(file)}

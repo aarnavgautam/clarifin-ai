@@ -78,7 +78,7 @@ const Profile: React.FC = () => {
       <div className="document_container">
         <img src={logo} className="document_logo" alt="Logo" />
         <div className="profile_documents_preview">
-          <h1 className="profile_welcome">Welcome back John.</h1>
+          <h1 className="profile_welcome">Welcome back.</h1>
           {/* Upload Section */}
           <h2 className="uploadtxt">Upload a file.</h2>
           <input type="file" onChange={handleFileUpload} className="upload" />

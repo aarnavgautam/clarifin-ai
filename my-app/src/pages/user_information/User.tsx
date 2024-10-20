@@ -122,7 +122,7 @@ const User = () => {
             </div>
           </div>
 
-          {/* Existing fields for gender, age, etc. */}
+          {/* Gender and Age Fields */}
           <div className="form_row">
             <div className="user_option">
               <label htmlFor="gender">Gender:</label>
@@ -163,7 +163,7 @@ const User = () => {
             </div>
           </div>
 
-          {/* Existing fields for ethnicity and income */}
+          {/* Ethnicity and Income Fields */}
           <div className="form_row">
             <div className="user_option">
               <label htmlFor="ethnicity">Ethnicity:</label>
@@ -205,12 +205,20 @@ const User = () => {
             </div>
           </div>
 
-          <img src={next} onClick = {handleNextPage} className = "nextLogo pulse fade-in" alt="Next" />
+          
         </form>
       </div>
+      {/* Conditionally render the Next button only when all fields are completed */}
+      {allCompleted && (
+            <img
+              src={next}
+              onClick={handleNextPage}
+              className="nextLogo pulse fade-in"
+              alt="Next"
+            />
+          )}
     </section>
   );
 };
 
 export default User;
-
